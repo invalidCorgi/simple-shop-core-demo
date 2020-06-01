@@ -3,6 +3,8 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <UserSecretsId>aspnet-EcommSimpleShop-EE95A2A4-B74E-4CB9-AFD2-9977A00E3A7E</UserSecretsId>
+        <LangVersion>8.0</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
