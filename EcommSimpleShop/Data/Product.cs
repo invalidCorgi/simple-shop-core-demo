@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EcommSimpleShop.Data
@@ -11,5 +13,6 @@ namespace EcommSimpleShop.Data
         public string Description { get; set; } = "";
         public string ImageUrl { get; set; } = "";
         public int Quantity { get; set; }
+        public ICollection<ProductInOrder> Orders { get; set; } = null!;
     }
 }

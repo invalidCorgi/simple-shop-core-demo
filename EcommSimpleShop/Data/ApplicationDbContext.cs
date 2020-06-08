@@ -6,9 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EcommSimpleShop.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<User>
     {
         public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Order> Orders { get; set; } = null!;
+        public DbSet<ProductInOrder> OrderProducts { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -21,6 +23,9 @@ namespace EcommSimpleShop.Data
             
             builder.Entity<Product>()
                 .UseXminAsConcurrencyToken();
+
+            builder.Entity<ProductInOrder>()
+                .HasKey(x => new {x.OrderId, x.ProductId});
         }
     }
 }
