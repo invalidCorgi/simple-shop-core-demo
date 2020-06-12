@@ -29,8 +29,8 @@
                     <br/>
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <form asp-controller="Product" asp-action="Delete" method="post">
-                        <a class="btn btn-warning" asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
+                        <form asp-controller="Product" asp-action="Delete" method="post" style="margin-top: 10px">
+                            <a class="btn btn-warning" asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
                             <input type="hidden" name="id" value="@product.Id"/>
                             <input type="submit" class="btn btn-danger" value="Delete"/>
                         </form>
@@ -39,4 +39,17 @@
             </div>
         </div>
     }
+
+    <div class="btn-group">
+        @for (var i = 1; i <= ViewBag.MaxPages; i++)
+        {
+            var buttonClass = "btn-outline-primary";
+            @if (i == ViewBag.Page)
+            {
+                buttonClass = "btn-primary";
+            }
+            <a asp-action="Index" asp-route-page="@i" class="btn @buttonClass">@i</a>
+        }
+    </div>
+
 </div>
