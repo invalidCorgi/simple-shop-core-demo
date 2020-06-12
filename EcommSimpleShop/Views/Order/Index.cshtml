@@ -1,0 +1,66 @@
+@model IEnumerable<Order>
+@using EcommSimpleShop.Data
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div flashes></div>
+
+@foreach (var order in Model)
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+        <th>
+            Image
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Price sum
+        </th>
+        </thead>
+        <tbody>
+        @foreach (var cartItem in order.Products)
+        {
+            <tr>
+                <td>
+                    <img src="@cartItem.Product.ImageUrl" alt="Product image" width="64px"/>
+                </td>
+                <td>
+                    @cartItem.Product.Name
+                </td>
+                <td>
+                    @((cartItem.Product.Price / 100.0).ToString("N2")) zł
+                </td>
+                <td>
+                    @cartItem.Quantity
+                </td>
+                <td>
+                    @((cartItem.Product.Price * cartItem.Quantity / 100.0).ToString("N2")) zł
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="4">
+                <a asp-controller="Order" asp-action="Payment" asp-route-id="@order.Id" class="btn btn-primary">
+                    Payment
+                </a>
+                </td>
+            <td>
+                @((order.Products.Sum(x => x.Quantity * x.Product.Price) / 100.0).ToString("N2")) zł
+            </td>
+        </tr>
+        </tbody>
+    </table>
+}

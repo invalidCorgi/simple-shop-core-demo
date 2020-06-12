@@ -64,5 +64,19 @@
             </td>
         </tr>
     }
+    @if (Model.Any())
+    {
+        <tr>
+            <td colspan="4"></td>
+            <td>
+                @((Model.Sum(x => x.Quantity * x.Product.Price) / 100.0).ToString("N2")) zł
+            </td>
+            <td></td>
+        </tr>
+    }
     </tbody>
 </table>
+
+<form asp-controller="Cart" asp-action="Checkout" method="post">
+    <input type="submit" class="btn btn-primary" value="Buy now"/>
+</form>
