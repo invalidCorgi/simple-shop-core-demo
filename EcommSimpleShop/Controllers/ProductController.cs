@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Flash;
 using EcommSimpleShop.Data;
 using EcommSimpleShop.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,12 @@ namespace EcommSimpleShop.Controllers
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IFlasher _flasher;
         
-        public ProductController(ApplicationDbContext dbContext)
+        public ProductController(ApplicationDbContext dbContext, IFlasher flasher)
         {
             _dbContext = dbContext;
+            _flasher = flasher;
         }
 
         [HttpGet]
@@ -70,6 +73,8 @@ namespace EcommSimpleShop.Controllers
             });
 
             await _dbContext.SaveChangesAsync();
+            
+            _flasher.Flash(Types.Success, "Product successfully added");
             
             return RedirectToAction("Index");
         }
@@ -132,6 +137,8 @@ namespace EcommSimpleShop.Controllers
 
             await _dbContext.SaveChangesAsync();
             
+            _flasher.Flash(Types.Success, "Product successfully updated");
+            
             return RedirectToAction("Index");
         }
         
@@ -142,6 +149,9 @@ namespace EcommSimpleShop.Controllers
             var model = await _dbContext.Products.FindAsync(id);
             _dbContext.Products.Remove(model);
             await _dbContext.SaveChangesAsync();
+            
+            _flasher.Flash(Types.Success, "Product successfully deleted");
+            
             return RedirectToAction("Index");
         }
     }
