@@ -1,0 +1,27 @@
+@model EcommSimpleShop.Data.Product
+
+@{
+    ViewData["Title"] = "Add product";
+}
+
+<div class="col-12">
+    <div class="row">
+        <div class="col-4">
+            <img src="@Model.ImageUrl" alt="Product image" class="full-width"/>
+        </div>
+        <div class="col-8">
+            <h2>
+                @Model.Name
+            </h2>
+            <h3>
+                @((Model.Price / 100.0).ToString("N2")) zł
+            </h3>
+        </div>
+    </div>
+</div>
+<h1>
+    Description
+</h1>
+<p>
+    @Model.Description
+</p>

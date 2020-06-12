@@ -1,4 +1,8 @@
 @model IEnumerable<EcommSimpleShop.Data.Product>
+@using EcommSimpleShop.Data
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 @{
     ViewData["Title"] = "Products";
@@ -7,25 +11,30 @@
 <div class="row">
     @foreach (var product in Model)
     {
-        @for (int i = 0; i < 5; i++)
-        {
-            <div class="col-6">
-                <div class="row">
-                    <div class="col-12">
-                        <img src="https://picsum.photos/300/200" alt="Product image" class="full-width"/>
-                    </div>
-                    <div class="col-6">
-                        <h2>
-                            @product.Name
-                        </h2>
-                    </div>
-                    <div class="col-6">
-                        <h3>
-                            @((product.Price / 100.0).ToString("N2")) zł
-                        </h3>
-                    </div>
+        <div class="col-12 product-card">
+            <div class="row">
+                <div class="col-4">
+                    <img src="@product.ImageUrl" alt="Product image" class="full-width"/>
+                </div>
+                <div class="col-8">
+                    <h2>
+                        @product.Name
+                    </h2>
+                    <h3>
+                        @((product.Price / 100.0).ToString("N2")) zł
+                    </h3>
+                    <a class="btn btn-primary" asp-controller="Product" asp-action="Details" asp-route-id="@product.Id">Details</a>
+                    <br/>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <form asp-controller="Product" asp-action="Delete" method="post">
+                        <a class="btn btn-warning" asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
+                            <input type="hidden" name="id" value="@product.Id"/>
+                            <input type="submit" class="btn btn-danger" value="Delete"/>
+                        </form>
+                    }
                 </div>
             </div>
-        }
+        </div>
     }
 </div>

@@ -73,3 +73,9 @@ body {
 .full-width{
   width: 100%;
 }
+
+.product-card{
+  border: #1b1e21 solid 1px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
