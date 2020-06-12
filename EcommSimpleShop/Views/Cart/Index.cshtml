@@ -1,0 +1,68 @@
+@model IEnumerable<EcommSimpleShop.Models.ItemInCartModel>
+@using EcommSimpleShop.Data
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div flashes></div>
+
+<table class="table table-bordered table-hover">
+    <thead>
+    <th>
+        Image
+    </th>
+    <th>
+        Name
+    </th>
+    <th>
+        Price
+    </th>
+    <th>
+        Quantity
+    </th>
+    <th>
+        Price sum
+    </th>
+    <th>
+
+    </th>
+    </thead>
+    <tbody>
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="6"></td>
+        </tr>
+    }
+    @foreach (var cartItem in Model)
+    {
+        <tr>
+            <td>
+                <img src="@cartItem.Product.ImageUrl" alt="Product image" width="64px"/>
+            </td>
+            <td>
+                @cartItem.Product.Name
+            </td>
+            <td>
+                @((cartItem.Product.Price / 100.0).ToString("N2")) zł
+            </td>
+            <td>
+                @cartItem.Quantity
+            </td>
+            <td>
+                @((cartItem.Product.Price * cartItem.Quantity / 100.0).ToString("N2")) zł
+            </td>
+            <td>
+                <form asp-controller="Cart" asp-action="Remove" method="post">
+                    <input type="hidden" name="id" value="@cartItem.Product.Id"/>
+                    <input type="submit" class="btn btn-danger" value="Remove"/>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

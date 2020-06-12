@@ -37,6 +37,8 @@ namespace EcommSimpleShop
                     options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddSession();
+            
             services
                 .AddFlashes()
                 .AddControllersWithViews()
@@ -58,6 +60,8 @@ namespace EcommSimpleShop
                 app.UseHsts();
             }
 
+            app.UseSession();
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
