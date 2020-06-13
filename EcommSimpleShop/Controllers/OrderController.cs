@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using EcommSimpleShop.Data;
 using EcommSimpleShop.Models;
@@ -44,7 +47,41 @@ namespace EcommSimpleShop.Controllers
                 .Where(x => x.OrderId == id)
                 .Sum(x => x.Quantity * x.Price) / 100.0;
             ViewBag.Amount = amount.ToString("N2");
-            ViewBag.OrderId = id;
+            ViewBag.Description = $"Payment for order {id}";
+            
+            using (var hasher = SHA256.Create())
+            {
+                var inputString = "dTiQD9vwBr3sAC2HsYgEY5Vjh3yNswaP" +
+                                  "754872" +
+                                  ViewBag.Amount +
+                                  "PLN" +
+                                  ViewBag.Description +
+                                  "https://localhost:5001/Order/Confirmation" +
+                                  "0";
+
+                var inputBytes = Encoding.UTF8.GetBytes(inputString);
+
+                var hash = hasher.ComputeHash(inputBytes);
+                
+                var builder = new StringBuilder();
+
+                foreach (var hashByte in hash)
+                {
+                    builder.Append(hashByte.ToString("X2"));
+                }
+
+                ViewBag.Chk = builder.ToString().ToLower();
+            }
+            
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [HttpPost]
+        public IActionResult Confirmation(string status)
+        {
+            ViewBag.Ok = status == "OK";
             
             return View();
         }

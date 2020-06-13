@@ -6,14 +6,18 @@
     Payment
 </h1>
 <p>
-    Please make a bank transfer to complete your order. After the payment has been credited, the product will be sent to your e-mail address.
-</p>
-<p>
-    Bank number: PL61 1090 1014 0000 0712 1981 2874
-</p>
-<p>
-    Title: @ViewBag.OrderId
+    Please make a payment to complete your order. After the payment has been credited, the product will be sent to your e-mail address.
 </p>
 <p>
     Amount: @ViewBag.Amount zł
 </p>
+<form action="https://ssl.dotpay.pl/test_payment/" id="dotpay_redirection_form" method="POST" enctype="application/x-www-form-urlencoded">
+    <input type="hidden" name="id" value="754872"/>
+    <input type="hidden" name="amount" value="@ViewBag.Amount"/>
+    <input type="hidden" name="currency" value="PLN"/>
+    <input type="hidden" name="description" value="@ViewBag.Description"/>
+    <input type="hidden" name="url" value="https://localhost:5001/Order/Confirmation"/>
+    <input type="hidden" name="type" value="0"/>
+    <input type="hidden" name="chk" value="@ViewBag.Chk"/>
+    <input type="submit" class="btn btn-primary" form="dotpay_redirection_form" value="Make a payment"/>
+</form>

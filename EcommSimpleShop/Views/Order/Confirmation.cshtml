@@ -1,0 +1,25 @@
+@{
+    ViewData["Title"] = "Payment confirmation";
+}
+
+<h1>
+    Payment confirmation
+</h1>
+<p style="text-align: center">
+    @if (ViewBag.Ok)
+    {
+        <img src="https://cdn.icon-icons.com/icons2/1506/PNG/512/emblemok_103757.png" alt="" width="256px"/>
+        <br/>
+        <span>
+            You have made payment successfully
+        </span>
+    }
+    else
+    {
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/No_Cross.svg/1200px-No_Cross.svg.png" alt="" width="256px"/>
+        <br/>
+        <span>
+            Payment failed, try again
+        </span>
+    }
+</p>
